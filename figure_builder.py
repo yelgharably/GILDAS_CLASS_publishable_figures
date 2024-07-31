@@ -58,9 +58,16 @@ def name_splitter(names):
         transition.append(parts[2])
     return source,molecule,transition
 
+# We're gonna need the plots to be centered at the vlsr value in the x-axis, so this function extracts the 
+# vlsr value from a seperate CSV file that you create and define the path for in main()
+def vlsr(file):
+    df = pd.read_csv(file, delim_whitespace=False, header=None, delimiter=',')
+    df.columns = ['Source','vlsr']
+    return df
+
 # This function takes in a data frame with its corresponding source name, molecule, and transition then
 # plots them together for each single source
-def plot_source(df_list,source,molecule,transition):
+def plot_source(df_list,source,molecule,transition,vlsr):
     arrow = r'$\rightarrow$'
     fig, axs = plt.subplots(len(molecule), 1, figsize=(6,len(molecule)*3), sharex=True)
     fig.suptitle(f"{source[0]}", fontsize=24, fontname='Arial', fontweight='bold')
@@ -70,7 +77,10 @@ def plot_source(df_list,source,molecule,transition):
                     transform=axs[i].transAxes, verticalalignment='top', horizontalalignment='left',fontweight='bold',fontsize=16)
         axs[i].text(0.80, 0.85, f"J={transition[i][0]}{arrow}{transition[i][1]}", 
                     transform=axs[i].transAxes, verticalalignment='top', horizontalalignment='left',fontsize=14)
-        axs[i].set_xlim(-150,150)
+        axs[i].set_xlim(vlsr-150,vlsr+150)
+        central_tick = vlsr
+        ticks = [vlsr - 150, vlsr - 100, vlsr - 50, central_tick, vlsr + 50, vlsr + 100, vlsr + 150]
+        axs[i].set_xticks(ticks)
         axs[i].tick_params(right=True, left=True,axis='y',color='k',length=6,direction='in')
         axs[i].tick_params(axis='x',which='both', direction='in', color='k', length=6, width=1)
         axs[i].tick_params(axis='x', labelsize=14)
@@ -91,6 +101,9 @@ def main():
     unique_sources = list(set(sources))
     #print(f"unique_sources = {unique_sources}")
 
+    vlsr_path = r"D:\Undergraduate Life\Summer 2024\HCN_HCO\Text Files\vlsr_list.txt"
+    vlsr_df = vlsr(vlsr_path)
+
     for source in unique_sources:
         df_list = []
         source_list = []
@@ -103,7 +116,7 @@ def main():
                 transition_list.append(transition[i])
                 df_list.append(df_builder(files_path[i]))
         #print(f"df_list = {df_list}\nsource_list = {source_list}\n molecule_list = {molecule_list}\n transition_list = {transition_list}")
-        plot_source(df_list,source_list,molecule_list,transition_list)
+        plot_source(df_list,source_list,molecule_list,transition_list,float(vlsr_df.loc[vlsr_df['Source'] == source, 'vlsr'].values[0]))
 
 if __name__ == "__main__":
     main()
