@@ -11,7 +11,9 @@ The script is very accesible and modifiable based on your needs. This should sav
 
 Feel free to use the script in your research! Here are a few plots to show you what the script can produce:
 
-![IRAS05113+1347](https://github.com/user-attachments/assets/c32c6450-0dcc-4272-bc73-4a246b68f714)
+![IRAS05113+1347](https://github.com/user-attachments/assets/3db2cf53-c0f6-4799-b6ad-8b809a3a1256)
 
-![IRAS05341+0852](https://github.com/user-attachments/assets/6dc2bc2f-d3fe-4404-bb79-2974e431f2a4)
+![IRAS23321+6545](https://github.com/user-attachments/assets/5bf867c2-e273-4dc8-ab30-338409065ad8)
+
+
 
